@@ -8,6 +8,8 @@ public interface jp_techacademy_kenji_takada_taskapp_TaskRealmProxyInterface {
     public void realmSet$contents(String value);
     public java.util.Date realmGet$date();
     public void realmSet$date(java.util.Date value);
+    public String realmGet$category();
+    public void realmSet$category(String value);
     public int realmGet$id();
     public void realmSet$id(int value);
 }

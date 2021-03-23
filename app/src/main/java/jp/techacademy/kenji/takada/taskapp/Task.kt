@@ -22,7 +22,7 @@ open class Task : RealmObject(), Serializable {
     var date: Date = Date()     // 日時
 
     //■　Category関連　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-//    var category:String = "" // Category=分野
+    var category:String = "" // Category=分野
 
     // idをPrimaryKeyとして設定
     @PrimaryKey

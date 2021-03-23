@@ -41,14 +41,16 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         long titleColKey;
         long contentsColKey;
         long dateColKey;
+        long categoryColKey;
         long idColKey;
 
         TaskColumnInfo(OsSchemaInfo schemaInfo) {
-            super(4);
+            super(5);
             OsObjectSchemaInfo objectSchemaInfo = schemaInfo.getObjectSchemaInfo("Task");
             this.titleColKey = addColumnDetails("title", "title", objectSchemaInfo);
             this.contentsColKey = addColumnDetails("contents", "contents", objectSchemaInfo);
             this.dateColKey = addColumnDetails("date", "date", objectSchemaInfo);
+            this.categoryColKey = addColumnDetails("category", "category", objectSchemaInfo);
             this.idColKey = addColumnDetails("id", "id", objectSchemaInfo);
         }
 
@@ -69,6 +71,7 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
             dst.titleColKey = src.titleColKey;
             dst.contentsColKey = src.contentsColKey;
             dst.dateColKey = src.dateColKey;
+            dst.categoryColKey = src.categoryColKey;
             dst.idColKey = src.idColKey;
         }
     }
@@ -182,6 +185,34 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
 
     @Override
     @SuppressWarnings("cast")
+    public String realmGet$category() {
+        proxyState.getRealm$realm().checkIfValid();
+        return (java.lang.String) proxyState.getRow$realm().getString(columnInfo.categoryColKey);
+    }
+
+    @Override
+    public void realmSet$category(String value) {
+        if (proxyState.isUnderConstruction()) {
+            if (!proxyState.getAcceptDefaultValue$realm()) {
+                return;
+            }
+            final Row row = proxyState.getRow$realm();
+            if (value == null) {
+                throw new IllegalArgumentException("Trying to set non-nullable field 'category' to null.");
+            }
+            row.getTable().setString(columnInfo.categoryColKey, row.getObjectKey(), value, true);
+            return;
+        }
+
+        proxyState.getRealm$realm().checkIfValid();
+        if (value == null) {
+            throw new IllegalArgumentException("Trying to set non-nullable field 'category' to null.");
+        }
+        proxyState.getRow$realm().setString(columnInfo.categoryColKey, value);
+    }
+
+    @Override
+    @SuppressWarnings("cast")
     public int realmGet$id() {
         proxyState.getRealm$realm().checkIfValid();
         return (int) proxyState.getRow$realm().getLong(columnInfo.idColKey);
@@ -199,10 +230,11 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
     }
 
     private static OsObjectSchemaInfo createExpectedObjectSchemaInfo() {
-        OsObjectSchemaInfo.Builder builder = new OsObjectSchemaInfo.Builder("Task", 4, 0);
+        OsObjectSchemaInfo.Builder builder = new OsObjectSchemaInfo.Builder("Task", 5, 0);
         builder.addPersistedProperty("title", RealmFieldType.STRING, !Property.PRIMARY_KEY, !Property.INDEXED, Property.REQUIRED);
         builder.addPersistedProperty("contents", RealmFieldType.STRING, !Property.PRIMARY_KEY, !Property.INDEXED, Property.REQUIRED);
         builder.addPersistedProperty("date", RealmFieldType.DATE, !Property.PRIMARY_KEY, !Property.INDEXED, Property.REQUIRED);
+        builder.addPersistedProperty("category", RealmFieldType.STRING, !Property.PRIMARY_KEY, !Property.INDEXED, Property.REQUIRED);
         builder.addPersistedProperty("id", RealmFieldType.INTEGER, Property.PRIMARY_KEY, Property.INDEXED, Property.REQUIRED);
         return builder.build();
     }
@@ -285,6 +317,13 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
                 }
             }
         }
+        if (json.has("category")) {
+            if (json.isNull("category")) {
+                objProxy.realmSet$category(null);
+            } else {
+                objProxy.realmSet$category((String) json.getString("category"));
+            }
+        }
         return obj;
     }
 
@@ -324,6 +363,13 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
                     }
                 } else {
                     objProxy.realmSet$date(JsonUtils.stringToDate(reader.nextString()));
+                }
+            } else if (name.equals("category")) {
+                if (reader.peek() != JsonToken.NULL) {
+                    objProxy.realmSet$category((String) reader.nextString());
+                } else {
+                    reader.skipValue();
+                    objProxy.realmSet$category(null);
                 }
             } else if (name.equals("id")) {
                 if (reader.peek() != JsonToken.NULL) {
@@ -406,6 +452,7 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         builder.addString(columnInfo.titleColKey, realmObjectSource.realmGet$title());
         builder.addString(columnInfo.contentsColKey, realmObjectSource.realmGet$contents());
         builder.addDate(columnInfo.dateColKey, realmObjectSource.realmGet$date());
+        builder.addString(columnInfo.categoryColKey, realmObjectSource.realmGet$category());
         builder.addInteger(columnInfo.idColKey, realmObjectSource.realmGet$id());
 
         // Create the underlying object and cache it before setting any object/objectlist references
@@ -448,6 +495,10 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         if (realmGet$date != null) {
             Table.nativeSetTimestamp(tableNativePtr, columnInfo.dateColKey, colKey, realmGet$date.getTime(), false);
         }
+        String realmGet$category = ((jp_techacademy_kenji_takada_taskapp_TaskRealmProxyInterface) object).realmGet$category();
+        if (realmGet$category != null) {
+            Table.nativeSetString(tableNativePtr, columnInfo.categoryColKey, colKey, realmGet$category, false);
+        }
         return colKey;
     }
 
@@ -489,6 +540,10 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
             if (realmGet$date != null) {
                 Table.nativeSetTimestamp(tableNativePtr, columnInfo.dateColKey, colKey, realmGet$date.getTime(), false);
             }
+            String realmGet$category = ((jp_techacademy_kenji_takada_taskapp_TaskRealmProxyInterface) object).realmGet$category();
+            if (realmGet$category != null) {
+                Table.nativeSetString(tableNativePtr, columnInfo.categoryColKey, colKey, realmGet$category, false);
+            }
         }
     }
 
@@ -526,6 +581,12 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
             Table.nativeSetTimestamp(tableNativePtr, columnInfo.dateColKey, colKey, realmGet$date.getTime(), false);
         } else {
             Table.nativeSetNull(tableNativePtr, columnInfo.dateColKey, colKey, false);
+        }
+        String realmGet$category = ((jp_techacademy_kenji_takada_taskapp_TaskRealmProxyInterface) object).realmGet$category();
+        if (realmGet$category != null) {
+            Table.nativeSetString(tableNativePtr, columnInfo.categoryColKey, colKey, realmGet$category, false);
+        } else {
+            Table.nativeSetNull(tableNativePtr, columnInfo.categoryColKey, colKey, false);
         }
         return colKey;
     }
@@ -572,6 +633,12 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
             } else {
                 Table.nativeSetNull(tableNativePtr, columnInfo.dateColKey, colKey, false);
             }
+            String realmGet$category = ((jp_techacademy_kenji_takada_taskapp_TaskRealmProxyInterface) object).realmGet$category();
+            if (realmGet$category != null) {
+                Table.nativeSetString(tableNativePtr, columnInfo.categoryColKey, colKey, realmGet$category, false);
+            } else {
+                Table.nativeSetNull(tableNativePtr, columnInfo.categoryColKey, colKey, false);
+            }
         }
     }
 
@@ -597,6 +664,7 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         unmanagedCopy.realmSet$title(realmSource.realmGet$title());
         unmanagedCopy.realmSet$contents(realmSource.realmGet$contents());
         unmanagedCopy.realmSet$date(realmSource.realmGet$date());
+        unmanagedCopy.realmSet$category(realmSource.realmGet$category());
         unmanagedCopy.realmSet$id(realmSource.realmGet$id());
 
         return unmanagedObject;
@@ -610,6 +678,7 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         builder.addString(columnInfo.titleColKey, realmObjectSource.realmGet$title());
         builder.addString(columnInfo.contentsColKey, realmObjectSource.realmGet$contents());
         builder.addDate(columnInfo.dateColKey, realmObjectSource.realmGet$date());
+        builder.addString(columnInfo.categoryColKey, realmObjectSource.realmGet$category());
         builder.addInteger(columnInfo.idColKey, realmObjectSource.realmGet$id());
 
         builder.updateExistingObject();
@@ -633,6 +702,10 @@ public class jp_techacademy_kenji_takada_taskapp_TaskRealmProxy extends jp.techa
         stringBuilder.append(",");
         stringBuilder.append("{date:");
         stringBuilder.append(realmGet$date());
+        stringBuilder.append("}");
+        stringBuilder.append(",");
+        stringBuilder.append("{category:");
+        stringBuilder.append(realmGet$category());
         stringBuilder.append("}");
         stringBuilder.append(",");
         stringBuilder.append("{id:");
