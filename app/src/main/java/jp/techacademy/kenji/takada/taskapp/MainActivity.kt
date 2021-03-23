@@ -16,6 +16,9 @@ import android.app.PendingIntent
 import com.google.android.material.snackbar.Snackbar
 
 import android.sax.StartElementListener
+import android.util.Log
+import android.view.View
+import kotlinx.android.synthetic.main.content_input.*
 import java.lang.reflect.Method
 import java.util.*
 
@@ -51,6 +54,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //■ 検索Button　Listener
+        search_button.setOnClickListener(mOnCategoryClickListener)
+
+        Log.d("TaskApp", "mOnCategoryClickListener")
+
 
         fab.setOnClickListener { view ->
 
@@ -212,6 +221,54 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //■検索関連
+    private val mOnCategoryClickListener = View.OnClickListener {
+    //■検索した際のMethod使用
+        searchCategory()
+    }
+
+
+    val category : String? = null
+
+    // ■　
+    private fun searchCategory(){
+
+        //■　一回　Realmを設定
+        var queryAll = mRealm.where(Task::class.java)
+
+        //■  文字列に変換
+        val category = search_text.text.toString()
+
+        //■　その文字列で検索して　一回指定したRealmDBから　ここで　検索
+        var querySearch = queryAll.equalTo("category",category)
+
+
+        //■Query条件を追加する
+        val categorySResult = querySearch.sort("date", Sort.DESCENDING).findAll()
+
+
+        // 上記の結果を、TaskListとしてセットする
+        mTaskAdapter.mTaskList = mRealm.copyFromRealm(categorySResult)
+
+        // TaskのListView用のアダプタに渡す
+        listView1.adapter = mTaskAdapter
+
+        // 表示を更新するために、アダプターにデータが変更されたことを知らせる
+        mTaskAdapter.notifyDataSetChanged()
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Realm関連＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
     // onDestroyMethodをOverrideしてRealmClassのcloseMethodを使用する
     // getDefaultInstanceMethodで取得したRealmClassのObjectはcloseMEてょｄで終了させる必要がある
@@ -219,6 +276,9 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mRealm.close()
     }
+
+
+
 
 
     // Realm関連＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
