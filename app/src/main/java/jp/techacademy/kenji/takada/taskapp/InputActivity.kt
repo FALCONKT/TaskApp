@@ -148,7 +148,7 @@ class InputActivity : AppCompatActivity() {
 
             // ■Category関連＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             // 更新も出来るように設定
-//            category_edit_text.setText(mTask!!.category)
+            category_edit_text.setText(mTask!!.category)
 
             val calendar = Calendar.getInstance()
             calendar.time = mTask!!.date
@@ -204,14 +204,14 @@ class InputActivity : AppCompatActivity() {
 
         // ■　Category関連＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
         // ■　Categoryの入力値を追加
-//        val category = category_edit_text.text.toString()
+        val category = category_edit_text.text.toString()
 
         mTask!!.title = title
         mTask!!.contents = content
 
         // ■　Category関連＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
         // ■　Categoryの入力値を追加
-//        mTask!!.category = category
+        mTask!!.category = category
 
         val calendar = GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute)
         val date = calendar.time
